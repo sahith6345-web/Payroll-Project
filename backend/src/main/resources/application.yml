@@ -1,0 +1,54 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: payroll-backend
+  data:
+    mongodb:
+      uri: mongodb+srv://sahith6345_db_user:sahithsowmithra@cluster0.ovojrzp.mongodb.net/payroll?retryWrites=true&w=majority&appName=Cluster0
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:noreply.payroll.enterprise@gmail.com}
+    password: ${MAIL_PASSWORD:dummy_app_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: 9a6e8b12c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1
+  expiration: 86400000 # 24 hours in ms
+  refresh-token:
+    expiration: 604800000 # 7 days in ms
+
+company:
+  name: Enterprise HRMS & Payroll Inc.
+  address: 100 Innovation Way, Tech Park, Suite 400
+  email: hr@enterprise-payroll.com
+  phone: +1 (800) 555-PAYROLL
+  website: https://payroll.enterprise.com
+  tax-id: EIN-99-8877665
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+logging:
+  level:
+    root: INFO
+    com.payroll: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    org.springframework.security: INFO
