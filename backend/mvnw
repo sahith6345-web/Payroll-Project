@@ -1,0 +1,36 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Apache Maven Wrapper startup batch script, version 3.2.0
+# ----------------------------------------------------------------------------
+
+PRG="$0"
+while [ -h "$PRG" ]; do
+  ls=`ls -ld "$PRG"`
+  link=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG=`dirname "$PRG"`/"$link"
+  fi
+done
+SAVED=`pwd`
+cd "`dirname "$PRG"`/" >/dev/null
+APP_HOME=`pwd -P`
+cd "$SAVED" >/dev/null
+
+WRAPPER_JAR="$APP_HOME/.mvn/wrapper/maven-wrapper.jar"
+
+if [ -f "$WRAPPER_JAR" ]; then
+  JAVA_EXE="java"
+  if [ -n "$JAVA_HOME" ]; then
+    JAVA_EXE="$JAVA_HOME/bin/java"
+  fi
+  exec "$JAVA_EXE" -jar "$WRAPPER_JAR" "$@"
+else
+  if command -v mvn >/dev/null 2>&1; then
+    exec mvn "$@"
+  else
+    echo "Error: maven-wrapper.jar not found and 'mvn' command not in PATH." >&2
+    exit 1
+  fi
+fi
