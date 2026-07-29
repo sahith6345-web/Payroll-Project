@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
   servlet:
     context-path: /api/v1
 
@@ -8,7 +8,7 @@ spring:
     name: payroll-backend
   data:
     mongodb:
-      uri: mongodb+srv://sahith6345_db_user:sahithsowmithra@cluster0.ovojrzp.mongodb.net/payroll?retryWrites=true&w=majority&appName=Cluster0
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb+srv://sahith6345_db_user:sahithsowmithra@cluster0.ovojrzp.mongodb.net/payroll?retryWrites=true&w=majority&appName=Cluster0}
   servlet:
     multipart:
       max-file-size: 10MB
