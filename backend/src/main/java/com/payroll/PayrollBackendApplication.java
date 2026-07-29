@@ -37,49 +37,54 @@ public class PayrollBackendApplication {
     @Bean
     public CommandLineRunner initDatabase() {
         return args -> {
-            // Seed Super Admin User if empty
-            if (!userRepository.existsByEmail("admin@enterprise-payroll.com")) {
-                User admin = User.builder()
-                        .firstName("Super")
-                        .lastName("Admin")
-                        .email("admin@enterprise-payroll.com")
-                        .username("admin")
-                        .password(passwordEncoder.encode("Admin@123"))
-                        .roles(Set.of(RoleType.SUPER_ADMIN, RoleType.ADMIN, RoleType.PAYROLL_MANAGER))
-                        .enabled(true)
-                        .emailVerified(true)
-                        .build();
+            try {
+                // Seed Super Admin User if empty
+                if (!userRepository.existsByEmail("admin@enterprise-payroll.com")) {
+                    User admin = User.builder()
+                            .firstName("Super")
+                            .lastName("Admin")
+                            .email("admin@enterprise-payroll.com")
+                            .username("admin")
+                            .password(passwordEncoder.encode("Admin@123"))
+                            .roles(Set.of(RoleType.SUPER_ADMIN, RoleType.ADMIN, RoleType.PAYROLL_MANAGER))
+                            .enabled(true)
+                            .emailVerified(true)
+                            .build();
 
-                User savedUser = userRepository.save(admin);
+                    User savedUser = userRepository.save(admin);
 
-                // Seed default Department
-                Department dept = Department.builder()
-                        .code("ENG")
-                        .name("Software Engineering")
-                        .description("Core product development & technology")
-                        .employeeCount(1)
-                        .build();
-                Department savedDept = departmentRepository.save(dept);
+                    // Seed default Department
+                    Department dept = Department.builder()
+                            .code("ENG")
+                            .name("Software Engineering")
+                            .description("Core product development & technology")
+                            .employeeCount(1)
+                            .build();
+                    Department savedDept = departmentRepository.save(dept);
 
-                // Seed Admin Employee
-                Employee emp = Employee.builder()
-                        .userId(savedUser.getId())
-                        .employeeCode("EMP-1001")
-                        .firstName("Super")
-                        .lastName("Admin")
-                        .email("admin@enterprise-payroll.com")
-                        .departmentId(savedDept.getId())
-                        .departmentName(savedDept.getName())
-                        .designationTitle("Chief Technology Officer")
-                        .status("ACTIVE")
-                        .dateOfJoining(LocalDate.now().minusYears(3))
-                        .build();
+                    // Seed Admin Employee
+                    Employee emp = Employee.builder()
+                            .userId(savedUser.getId())
+                            .employeeCode("EMP-1001")
+                            .firstName("Super")
+                            .lastName("Admin")
+                            .email("admin@enterprise-payroll.com")
+                            .departmentId(savedDept.getId())
+                            .departmentName(savedDept.getName())
+                            .designationTitle("Chief Technology Officer")
+                            .status("ACTIVE")
+                            .dateOfJoining(LocalDate.now().minusYears(3))
+                            .build();
 
-                Employee savedEmp = employeeRepository.save(emp);
-                savedUser.setEmployeeId(savedEmp.getId());
-                userRepository.save(savedUser);
+                    Employee savedEmp = employeeRepository.save(emp);
+                    savedUser.setEmployeeId(savedEmp.getId());
+                    userRepository.save(savedUser);
 
-                System.out.println(">>> Initialized Super Admin user: admin@enterprise-payroll.com / Admin@123");
+                    System.out.println(">>> Initialized Super Admin user: admin@enterprise-payroll.com / Admin@123");
+                }
+            } catch (Exception e) {
+                System.err.println(">>> Database initialization error: " + e.getMessage());
+                e.printStackTrace();
             }
         };
     }
